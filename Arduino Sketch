@@ -1,0 +1,38 @@
+/*
+Airlock Monster
+Triggers a servo to glide while turning on or off an LED every loop
+Adapted from Glide and Button examples in the Arduino software.
+*/
+
+#include <Servo.h> //activate and assign servo
+
+Servo myservo;
+int pos = 0;
+const int buttonPin = 2; //Assign button to input 2
+const int ledPin =  13; //Assign LED output to pin 13
+int buttonState = 0;
+
+void setup() {
+  myservo.attach(9); //Assign servo output to pin 9
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT);
+}
+
+void loop()  { //Glide servo open and shut
+  for(pos = 0; pos <= 180; pos += 1)  {
+	myservo.write(pos);
+	delay(15);
+  }
+  for(pos = 180; pos>=0; pos-=1) {
+	myservo.write(pos);
+	delay(15);
+  }
+ 
+  buttonState = digitalRead(buttonPin); //once per loop, check status of button and activate LED if value is high
+ 
+  if (buttonState == HIGH) { 	
+	digitalWrite(ledPin, HIGH); 
+  } else {
+	digitalWrite(ledPin, LOW);
+ }
+}
